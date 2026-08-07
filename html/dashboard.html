@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="../images/icon/dash.jpg">
+    <link rel="stylesheet" href="../css/das.css">
+    <title>Dashboard</title>
+</head>
+
+<body>
+    <header>
+        <div>
+            <h2>Dashboard Task Management</h2>
+
+            <button id="addtask"><a href="./addtask.html" target="_parent">add-Task</a></button>
+        </div>
+    </header>
+    <div class="task">
+        <div class="nm-task"><h3>Total task </h3><p>0</p>
+        </div>
+        <div class="com-task"> Task completed<p>0</p>
+        </div>
+        <div class="pending">Pending task<p>0</p>
+        </div>
+    </div>
+    <div class="search">
+
+        <input type="search" placeholder="To Search a tasks">
+        <select id="filter">
+            <option value="all type">all</option>
+            <option value="completed task">competed</option>
+            <option value="pending task">pending</option>
+        </select>
+    </div>
+    <div class="tasklist">
+        <h2> Task List</h2>
+        <button class="btn">Edit</button>
+        <button class="btn">complete</button>
+        <button class="btn">delete</button>
+    </div>
+</body>
+
+</html>

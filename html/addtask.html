@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/addtask.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+    <form id="taskform">
+        <div class="input-group" >
+        <label for="title">Task title</label>
+        <input type="text" id="task" placeholder="javascript" class="text">
+      <p id="message"></p>    
+    </div>
+        <div class="input-group">
+        <label for="description">description</label>
+        <textarea placeholder="Task-Description" class="text" id="description">
+        
+        </textarea>
+        </div>
+        <div class="input-group">
+        <label for="priority-input">Priority</label>
+        <input list="priority" id="priority-input" name="search" placeholder="type to search" class="text">
+        <datalist id="priority">
+            <option value="high">
+            <option value="medium">
+            <option value="low">
+        </datalist>
+        </div>
+        <div class="input-group">
+        <label for="duedate">Due Date</label>
+        <input type="date" id="duedate" name="startdate"  class="text">
+        </div>
+        <div class="input-group">
+        <label for="droup">Status</label>
+        <input list="status" id="droup" name="state" class="text">
+        <datalist id="status">
+            <option value="pending">
+            <option value="completed">
+        </datalist></div>
+        <div class="input-group">
+        <label for="create-date">Created-date</label>
+        <input type="date" id="create-date" name="date" readonly class="text">
+        </div>
+        <div class="btn">
+            <button type="submit">save-task</button>
+            <button type="reset">clear</button>
+        
+        </div>
+        
+    </form>
+    </div>
+    <div class="message" id="sucessmessage">
+            <h2>Task added sucessfully</h2>
+        </div>
+</body>
+<script src="../javascript/msg.js"></script>
+</html>

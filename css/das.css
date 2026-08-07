@@ -1,0 +1,101 @@
+*{
+    box-sizing: border-box;
+    background-color: #25202E;
+    color: white;
+    padding: 0; 
+    margin: 0;
+     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+
+}
+
+header{
+    border:5px solid #4F706C;
+    margin: 10px;
+    border-radius: 10px;
+    }
+header div{
+ display:flex;
+    direction: row;
+    justify-content:center;
+    align-items:center;
+}
+#addtask{
+    color:white;
+    border: 4px solid #025770;
+    background-color: #027056;
+    padding:10px;
+    border-radius: 20px;
+    margin-left:50%;
+    cursor: pointer;
+}
+#addtask:hover{
+    padding:15px;
+    background-color: #696C70;
+}
+.task{
+    font-size: 20px;
+    margin: 10px;
+    display: flex;
+    gap: 20px;
+    
+    
+
+}
+
+
+.nm-task{
+    border:5px solid #4F706C;
+   text-align: center;
+   align-content: center;
+    border-radius: 10px;
+    height: 250px;
+    width: 35%;
+
+
+    
+}
+.com-task{
+    border:5px solid #4F706C;
+    text-align: center;
+   align-content: center;
+    border-radius: 10px;
+    height: 250px;
+    width: 35%;;
+  
+}
+.pending{
+    border:5px solid #4F706C;
+   text-align: center;
+   align-content: center;
+    border-radius: 10px;
+    height: 250px;
+    width: 35%;
+   
+}
+.search{
+    border: 5px solid #4F706C;
+    padding:20px;
+    border-radius: 10px;
+}
+.search input,select{
+    border: 2px solid rgb(210, 46, 46);
+    border-radius: 4px;
+    padding:10px 20px;
+}
+.tasklist{
+    border: 5px solid #4F706C;
+    border-radius: 5px;
+    margin-top:10px;
+}
+.btn{
+    border: 3px solid red;
+    background-color:#025770;
+    border-radius: 20px;
+    padding: 10px;
+    cursor: pointer;
+}
+a{
+    text-decoration: none;
+     background-color: #027056;
+     
+}
