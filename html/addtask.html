@@ -5,22 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/addtask.css">
+   
     <title>Document</title>
+    <script src="../javascript/msg.js" defer></script>
 </head>
 
 <body>
     <div class="container">
-    <form id="taskform">
+    <form id="taskform" method="post" action="dashboard.html">
         <div class="input-group" >
         <label for="title">Task title</label>
-        <input type="text" id="task" placeholder="javascript" class="text">
-      <p id="message"></p>    
+        <input type="text" id="title" name="title" placeholder="javascript" class="text">
+      <div class="error-message"></div>   
     </div>
         <div class="input-group">
         <label for="description">description</label>
-        <textarea placeholder="Task-Description" class="text" id="description">
+        <textarea placeholder="Task-Description" name="description" class="text" id="description">
         
         </textarea>
+        <div class="error-message"></div>  
         </div>
         <div class="input-group">
         <label for="priority-input">Priority</label>
@@ -30,10 +33,12 @@
             <option value="medium">
             <option value="low">
         </datalist>
+        <div class="error-message"></div>  
         </div>
         <div class="input-group">
         <label for="duedate">Due Date</label>
         <input type="date" id="duedate" name="startdate"  class="text">
+        <div class="error-message"></div>  
         </div>
         <div class="input-group">
         <label for="droup">Status</label>
@@ -41,11 +46,9 @@
         <datalist id="status">
             <option value="pending">
             <option value="completed">
-        </datalist></div>
-        <div class="input-group">
-        <label for="create-date">Created-date</label>
-        <input type="date" id="create-date" name="date" readonly class="text">
-        </div>
+        </datalist>
+    <div class="error-message"></div></div>
+       
         <div class="btn">
             <button type="submit">save-task</button>
             <button type="reset">clear</button>
@@ -58,5 +61,5 @@
             <h2>Task added sucessfully</h2>
         </div>
 </body>
-<script src="../javascript/msg.js"></script>
+
 </html>
