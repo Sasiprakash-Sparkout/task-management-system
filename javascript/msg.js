@@ -1,6 +1,6 @@
 const form = document.getElementById("taskform");
 const title = document.getElementById("title");
-const des = document.getElementById("description");
+
 const priority = document.getElementById("priority-input");
 const duedate = document.getElementById("duedate");
 const droup = document.getElementById("droup");
@@ -46,8 +46,10 @@ if (!validateInputs()) {
             dueDate: duedate.value,
             status: droup.value.trim(),
             createdDate: createdDate
+
         };
         tasks.push(newtask);
+
         localStorage.setItem("tasks", JSON.stringify(tasks));
         alert("Task added successfully!");
     }
@@ -69,7 +71,7 @@ function setsucess(element) {
 }
 function validateInputs() {
     const titvlaue = title.value.trim();
-    const desvalue = des.value.trim();
+
     const priorityval = priority.value.trim();
     const dueval = duedate.value.trim();
     const droupval = droup.value.trim();
@@ -81,14 +83,7 @@ function validateInputs() {
     else {
         setsucess(title);
     }
-    if (desvalue === "") {
-        success = false;
-
-      seterror(des, "Give a description to your task");
-    } 
-    else {
-        setsucess(des);
-    }
+   
     if (priorityval === "") {
         success = false;
         seterror(priority, "Select your priority");
