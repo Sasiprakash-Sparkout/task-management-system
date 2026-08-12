@@ -1,6 +1,6 @@
 const taskContainer = document.getElementById("task-container");
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-//to create a task list for display a taskm
+//to create a html container using create element
 tasks.forEach((task) => {
     const taskElement = document.createElement("div");
     taskElement.classList.add("task-item");
@@ -12,10 +12,17 @@ tasks.forEach((task) => {
         <p>Created Date<br>${task.createdDate}</p>
         <p>Status<br>${task.status}</p>
         <button class="editbtn">Edit</button>
-        <button class="btn">Complete</button>
+        <button class="com">${task.status==="completed"?"completed":"complete"}</button>
         <button class="deletebtn">Delete</button>
     `;
     taskContainer.appendChild(taskElement);
+    //to change the style when i click the complete button
+      tasks.forEach((task)=>{
+            if(task.status==="completed"){
+                    
+                taskElement.classList.add("completed")
+            }
+        })
 
     //edit to click
     const editbtn = taskElement.querySelector(".editbtn");
@@ -27,45 +34,73 @@ tasks.forEach((task) => {
     //to delete the task
     const deletebtn = taskElement.querySelector(".deletebtn");
     deletebtn.addEventListener("click", (e) => {
-        let TaskId = task.id;
-
+        const TaskId = task.id;
+    
         if (confirm("Are you sure you want to delete?")) {
             tasks = tasks.filter((task) => task.id !== TaskId);
             localStorage.setItem("tasks", JSON.stringify(tasks));
-            deleteTask();
-        }
-        if (false()) {
-            deleteTask();
+            taskElement.remove();
+            totalcount();
+            pendingcount();
+            completedcount();
         }
 
-        taskElement.remove();
+
+    });
+    //complete the task button
+
+    const completebtn = taskElement.querySelector(".com");
+    
+    taskElement.id = task.id;
+    completebtn.addEventListener('click', () => {
+    const comtask = tasks.find((task) => task.id === String(taskElement.id));
+          
+    
+        if (comtask && comtask.status === "pending") {
+            comtask.status = "completed";
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+            completebtn.textContent = "Completed";
+            taskElement.querySelector("p:nth-of-type(5)").innerHTML = `Status<br>${comtask.status}`;
+        }
+      
+        completedcount();
+        pendingcount();
+    });
+    //search tasks
+    const search=document.getElementById("search");
+    search.addEventListener("keyup",()=>{
+        const searchitems=document.querySelectorAll(".task-item")
+        for(const i=0;i<searchitems.length;i++){
+            const searchvalue=document.getElementById("search");
+            
+        }
     })
+   
+
+
 });
 //to count total task
 function totalcount() {
-    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-    let totalTask = tasks.length;
-    let counttask = document.getElementById("total-task");
-    counttask.textContent = totalTask;
+    const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    const counttask = document.getElementById("total-task");
+    counttask.textContent = tasks.length;
 }
 totalcount();
 //to count pending task
 function pendingcount() {
-    let count = document.getElementById("pending-task")
+    const count = document.getElementById("pending-task")
     let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-
     let pendingstat = tasks.filter((pending) => pending.status === "pending");
-    let pendingcount = pendingstat.length;
-    count.textContent = pendingcount;
+    count.textContent = pendingstat.length;
 }
 pendingcount();
 //to completed count
 function completedcount() {
     let count = document.getElementById("completed-task")
     let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-
     let completestat = tasks.filter((pending) => pending.status === "completed");
-    let completcount = completestat.length;
-    count.textContent = completcount;
+    count.textContent = completestat.length;
 }
 completedcount();
+
+

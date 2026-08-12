@@ -1,6 +1,6 @@
 const form = document.getElementById("taskform");
 const title = document.getElementById("title");
-
+const des=document.getElementById("description")
 const priority = document.getElementById("priority-input");
 const duedate = document.getElementById("duedate");
 const droup = document.getElementById("droup");

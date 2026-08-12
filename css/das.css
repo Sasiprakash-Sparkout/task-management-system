@@ -143,3 +143,9 @@ a {
     text-decoration: none;
     background-color: #027056;
 }
+/* add a style when i click the complete btn  */
+.completed{
+    color:#14417a;
+    text-decoration:line-through;
+    
+}
