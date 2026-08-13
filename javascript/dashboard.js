@@ -5,7 +5,7 @@ tasks.forEach((task) => {
     const taskElement = document.createElement("div");
     taskElement.classList.add("task-item");
     taskElement.innerHTML = `
-        <h3>Title<br>${task.title}</h3>
+        <h3 id="task">Title<br>${task.title}</h3>
         <p>Description<br>${task.description}</p>
         <p>Priority<br>${task.priority}</p>
         <p>Due Date<br>${task.dueDate}</p>
@@ -17,12 +17,12 @@ tasks.forEach((task) => {
     `;
     taskContainer.appendChild(taskElement);
     //to change the style when i click the complete button
-      tasks.forEach((task)=>{
+      /* tasks.forEach((task)=>{
             if(task.status==="completed"){
                     
                 taskElement.classList.add("completed")
             }
-        })
+        }) */
 
     //edit to click
     const editbtn = taskElement.querySelector(".editbtn");
@@ -67,16 +67,45 @@ tasks.forEach((task) => {
         pendingcount();
     });
     //search tasks
-    const search=document.getElementById("search");
-    search.addEventListener("keyup",()=>{
-        const searchitems=document.querySelectorAll(".task-item")
-        for(const i=0;i<searchitems.length;i++){
-            const searchvalue=document.getElementById("search");
-            
+     const search=document.getElementById("search");
+    const tasklist=document.getElementById("task-container");
+    function searchtask(task){
+        tasklist.innerHTML="";
+         const data=JSON.parse(localStorage.getItem("tasks"))||[];
+         
+        const cleartask=task.toLowerCase().trim();
+        const filtertask=data.filter(storedata=>{
+           const titleText = (storedata.title || "").toLowerCase();
+        const descText = (storedata.description || "").toLowerCase();
+        
+        return titleText.includes(cleartask) || descText.includes(cleartask);
+    
+        });
+        if(filtertask.length===0){
+            tasklist.innerHTML='<p class="noresults">no matchfound</p>';
+            return;
         }
-    })
-   
-
+        filtertask.forEach(data=>{
+            //create a html element for display the search items 
+          const itemdisplay = document.createElement("div");
+    itemdisplay.classList.add("task-item");
+    itemdisplay.innerHTML = `
+        <h3 id="task">Title<br>${data.title}</h3>
+        <p>Description<br>${data.description}</p>
+        <p>Priority<br>${data.priority}</p>
+        <p>Due Date<br>${data.dueDate}</p>
+        <p>Created Date<br>${data.createdDate}</p>
+        <p>Status<br>${data.status}</p>
+        <button class="editbtn">Edit</button>
+        <button class="com">${data.status==="completed"?"completed":"complete"}</button>
+        <button class="deletebtn">Delete</button>
+    `;
+    taskContainer.appendChild(itemdisplay);
+        });
+    }
+search.addEventListener("input",((e)=>{
+    searchtask(e.target.value);
+})) 
 
 });
 //to count total task
