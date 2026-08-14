@@ -24,9 +24,9 @@ header div {
     color: white;
     border: 4px solid #025770;
     background-color: #027056;
-    padding: 10px;
+     padding: 10px;
     border-radius: 20px;
-    margin-left: 50%;
+    margin-left: 20%;
     cursor: pointer;
 }
 
@@ -73,6 +73,8 @@ header div {
     border: 5px solid #4F706C;
     padding: 20px;
     border-radius: 10px;
+    display: flex;
+    gap:10px;
 }
 
 .search input,
@@ -148,4 +150,29 @@ a {
     color:#14417a;
     text-decoration:line-through;
     
+}
+.search input,
+.search datalist {
+    border: 2px solid rgb(210, 46, 46);
+    border-radius: 4px;
+    padding: 10px 20px;
+}
+#selectpriority {
+    border: 2px solid rgb(210, 46, 46);
+    border-radius: 4px;
+    padding: 10px 20px;
+    background-color: #302A3A;
+    color: white;
+}
+#selectdate{
+     border: 2px solid rgb(210, 46, 46);
+    border-radius: 4px;
+    padding: 10px 20px;
+    background-color: #302A3A;
+    color: white;
+
+}
+datalist option {
+    background-color: #302A3A;
+    color: white;
 }

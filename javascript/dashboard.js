@@ -5,24 +5,19 @@ tasks.forEach((task) => {
     const taskElement = document.createElement("div");
     taskElement.classList.add("task-item");
     taskElement.innerHTML = `
-        <h3 id="task">Title<br>${task.title}</h3>
+        <h3 class="task-title">Title<br>${task.title}</h3>
         <p>Description<br>${task.description}</p>
         <p>Priority<br>${task.priority}</p>
         <p>Due Date<br>${task.dueDate}</p>
         <p>Created Date<br>${task.createdDate}</p>
         <p>Status<br>${task.status}</p>
         <button class="editbtn">Edit</button>
-        <button class="com">${task.status==="completed"?"completed":"complete"}</button>
+        <button class="com">${task.status === "completed" ? "completed" : "complete"}</button>
         <button class="deletebtn">Delete</button>
     `;
     taskContainer.appendChild(taskElement);
-    //to change the style when i click the complete button
-      /* tasks.forEach((task)=>{
-            if(task.status==="completed"){
-                    
-                taskElement.classList.add("completed")
-            }
-        }) */
+
+        
 
     //edit to click
     const editbtn = taskElement.querySelector(".editbtn");
@@ -35,7 +30,7 @@ tasks.forEach((task) => {
     const deletebtn = taskElement.querySelector(".deletebtn");
     deletebtn.addEventListener("click", (e) => {
         const TaskId = task.id;
-    
+
         if (confirm("Are you sure you want to delete?")) {
             tasks = tasks.filter((task) => task.id !== TaskId);
             localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -44,69 +39,29 @@ tasks.forEach((task) => {
             pendingcount();
             completedcount();
         }
-
-
     });
     //complete the task button
 
     const completebtn = taskElement.querySelector(".com");
-    
     taskElement.id = task.id;
     completebtn.addEventListener('click', () => {
-    const comtask = tasks.find((task) => task.id === String(taskElement.id));
-          
-    
+        const comtask = tasks.find((task) => task.id === String(taskElement.id));
         if (comtask && comtask.status === "pending") {
             comtask.status = "completed";
             localStorage.setItem("tasks", JSON.stringify(tasks));
             completebtn.textContent = "Completed";
             taskElement.querySelector("p:nth-of-type(5)").innerHTML = `Status<br>${comtask.status}`;
         }
+        //to change the style when i click the complete button
       
+       const title = taskElement.querySelector(".task-title");
+
+if (task.status === "completed") {
+    title.classList.add("completed");
+}
         completedcount();
         pendingcount();
     });
-    //search tasks
-     const search=document.getElementById("search");
-    const tasklist=document.getElementById("task-container");
-    function searchtask(task){
-        tasklist.innerHTML="";
-         const data=JSON.parse(localStorage.getItem("tasks"))||[];
-         
-        const cleartask=task.toLowerCase().trim();
-        const filtertask=data.filter(storedata=>{
-           const titleText = (storedata.title || "").toLowerCase();
-        const descText = (storedata.description || "").toLowerCase();
-        
-        return titleText.includes(cleartask) || descText.includes(cleartask);
-    
-        });
-        if(filtertask.length===0){
-            tasklist.innerHTML='<p class="noresults">no matchfound</p>';
-            return;
-        }
-        filtertask.forEach(data=>{
-            //create a html element for display the search items 
-          const itemdisplay = document.createElement("div");
-    itemdisplay.classList.add("task-item");
-    itemdisplay.innerHTML = `
-        <h3 id="task">Title<br>${data.title}</h3>
-        <p>Description<br>${data.description}</p>
-        <p>Priority<br>${data.priority}</p>
-        <p>Due Date<br>${data.dueDate}</p>
-        <p>Created Date<br>${data.createdDate}</p>
-        <p>Status<br>${data.status}</p>
-        <button class="editbtn">Edit</button>
-        <button class="com">${data.status==="completed"?"completed":"complete"}</button>
-        <button class="deletebtn">Delete</button>
-    `;
-    taskContainer.appendChild(itemdisplay);
-        });
-    }
-search.addEventListener("input",((e)=>{
-    searchtask(e.target.value);
-})) 
-
 });
 //to count total task
 function totalcount() {
@@ -133,3 +88,176 @@ function completedcount() {
 completedcount();
 
 
+
+
+
+
+
+
+
+
+//search task
+const search = document.getElementById("search");
+const tasklist = document.getElementById("task-container");
+function searchtask(task) {
+    tasklist.innerHTML = "";
+    const mydata = JSON.parse(localStorage.getItem("tasks")) || [];
+    
+    const cleartask = task.toLowerCase().trim();
+    const filtertask = mydata.filter(storedata => {
+        const titleText = (storedata.title || "").toLowerCase();
+        const descText = (storedata.description || "").toLowerCase();
+
+        return titleText.includes(cleartask) || descText.includes(cleartask);
+
+    });
+    if (filtertask.length === 0) {
+        tasklist.innerHTML = '<p class="noresults">no matchfound</p>';
+        return;
+    }
+    filtertask.forEach(data => {
+        //create a html element for display the search items 
+        const itemdisplay = document.createElement("div");
+        itemdisplay.classList.add("task-item");
+        itemdisplay.innerHTML = `
+        <h3 id="task">Title<br>${data.title}</h3>
+        <p>Description<br>${data.description}</p>
+        <p>Priority<br>${data.priority}</p>
+        <p>Due Date<br>${data.dueDate}</p>
+        <p>Created Date<br>${data.createdDate}</p>
+        <p>Status<br>${data.status}</p>
+        <button class="editbtn">Edit</button>
+        <button class="com">${data.status === "completed" ? "completed" : "complete"}</button>
+        <button class="deletebtn">Delete</button>
+    `;
+        taskContainer.appendChild(itemdisplay);
+        const editbtn = itemdisplay.querySelector(".editbtn");
+        editbtn.addEventListener("click", (e) => {
+
+            localStorage.setItem("editTask", data.id);
+            window.location.href = "../html/addtask.html";
+        });
+        const completebtn = itemdisplay.querySelector(".com");
+        itemdisplay.id = data.id;
+        completebtn.addEventListener('click', () => {
+            const comtask = tasks.find((task) => task.id === String(itemdisplay.id));
+            if (comtask && comtask.status === "pending") {
+                comtask.status = "completed";
+                localStorage.setItem("tasks", JSON.stringify(tasks));
+                completebtn.textContent = "Completed";
+                itemdisplay.querySelector("p:nth-of-type(5)").innerHTML = `Status<br>${comtask.status}`;
+            }
+            completedcount();
+            pendingcount();
+        });
+        const deletebtn = itemdisplay.querySelector(".deletebtn");
+        deletebtn.addEventListener("click", (e) => {
+            const dataId = data.id;
+
+            if (confirm("Are you sure you want to delete?")) {
+                tasks = mydata.filter(task => task.id !== String(dataId));
+                localStorage.setItem("tasks", JSON.stringify(tasks));
+                
+                itemdisplay.remove();
+                
+                totalcount();
+                pendingcount();
+                completedcount();
+            }
+        });
+    });
+}
+search.addEventListener("input", ((e) => {
+    searchtask(e.target.value);
+
+}))
+
+
+
+
+
+
+
+
+
+
+
+
+//filter task
+function getstoreddata() {
+    const localdata = JSON.parse(localStorage.getItem("tasks"));
+    return localdata;
+}
+function dispalaydata(datafetch) {
+    const container = document.getElementById("task-container");
+    container.textContent = "";
+    if (datafetch.length === 0) {
+        container.innerHTML = "<p>No Data Found</p>";
+    }
+    datafetch.forEach(item => {
+        const div = document.createElement("div");
+        div.classList.add("task-item");
+        div.innerHTML = ` <h3 id="task">Title<br>${item.title}</h3>
+        <p>Description<br>${item.description}</p>
+        <p>Priority<br>${item.priority}</p>
+        <p>Due Date<br>${item.dueDate}</p>
+        <p>Created Date<br>${item.createdDate}</p>
+        <p>Status<br>${item.status}</p>
+        <button class="editbtn">Edit</button>
+        <button class="com">${item.status === "completed" ? "completed" : "complete"}</button>
+        <button class="deletebtn">Delete</button>
+    `;
+        taskContainer.appendChild(div);
+         //edit to click
+    const editbtn = div.querySelector(".editbtn");
+         editbtn.addEventListener("click", (e) => {
+
+            localStorage.setItem("editTask", item.id);
+            window.location.href = "../html/addtask.html";
+        });
+        const completebtn = div.querySelector(".com");
+        div.id = item.id;
+        completebtn.addEventListener('click', () => {
+            const comtask = tasks.find((task) => task.id === String(div.id));
+            if (comtask && comtask.status === "pending") {
+                comtask.status = "completed";
+                localStorage.setItem("tasks", JSON.stringify(tasks));
+                completebtn.textContent = "Completed";
+                div.querySelector("p:nth-of-type(5)").innerHTML = `Status<br>${comtask.status}`;
+            }
+            completedcount();
+            pendingcount();
+        });
+        const deletebtn = div.querySelector(".deletebtn");
+        deletebtn.addEventListener("click", (e) => {
+            const dataId = item.id;
+
+            if (confirm("Are you sure you want to delete?")) {
+                tasks = getstoreddata().filter(task => task.id !== String(dataId));
+                localStorage.setItem("tasks", JSON.stringify(tasks));
+                
+                div.remove();
+                
+                totalcount();
+                pendingcount();
+                completedcount();
+            }
+        });
+    });
+    
+}
+function filter(status) {
+    const filtereddata = getstoreddata();
+    if (status === "all") {
+        dispalaydata(filtereddata);
+    }
+    else {
+        const filterstatus = filtereddata.filter(item => item.status.toLowerCase() === status);
+        dispalaydata(filterstatus);
+    }
+}
+
+const seleteddata = document.getElementById("filter");
+seleteddata.addEventListener("change", (e) => {
+    filter(e.target.value);
+})
