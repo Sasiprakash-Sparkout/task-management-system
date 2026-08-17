@@ -140,6 +140,33 @@ header div {
     padding: 10px;
     cursor: pointer;
 }
+#asysc{
+    border: 3px solid #025770;
+    background-color: #027056;
+    color: white;
+    border-radius: 20px;
+    padding: 8px 15px;
+    margin-top: 10px;
+    margin-right: 8px;
+    cursor: pointer;
+}
+#asysc:hover{
+    background-color: #025770;
+}
+#desyc{
+     border: 3px solid #025770;
+    background-color: #027056;
+    color: white;
+    border-radius: 20px;
+    padding: 8px 15px;
+    margin-top: 10px;
+    margin-right: 8px;
+    cursor: pointer;
+
+}
+#desyc:hover{
+    background-color: #025770;
+}
 
 a {
     text-decoration: none;

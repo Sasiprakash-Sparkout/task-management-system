@@ -17,7 +17,6 @@ tasks.forEach((task) => {
     `;
     taskContainer.appendChild(taskElement);
 
-        
 
     //edit to click
     const editbtn = taskElement.querySelector(".editbtn");
@@ -25,6 +24,7 @@ tasks.forEach((task) => {
         //save a edit task in storage
         localStorage.setItem("editTask", task.id);
         window.location.href = "../html/addtask.html";
+      
     });
     //to delete the task
     const deletebtn = taskElement.querySelector(".deletebtn");
@@ -38,7 +38,9 @@ tasks.forEach((task) => {
             totalcount();
             pendingcount();
             completedcount();
+            empty();
         }
+        
     });
     //complete the task button
 
@@ -53,12 +55,12 @@ tasks.forEach((task) => {
             taskElement.querySelector("p:nth-of-type(5)").innerHTML = `Status<br>${comtask.status}`;
         }
         //to change the style when i click the complete button
-      
-       const title = taskElement.querySelector(".task-title");
 
-if (task.status === "completed") {
-    title.classList.add("completed");
-}
+        const title = taskElement.querySelector(".task-title");
+
+        if (task.status === "completed") {
+            title.classList.add("completed");
+        }
         completedcount();
         pendingcount();
     });
@@ -102,7 +104,7 @@ const tasklist = document.getElementById("task-container");
 function searchtask(task) {
     tasklist.innerHTML = "";
     const mydata = JSON.parse(localStorage.getItem("tasks")) || [];
-    
+
     const cleartask = task.toLowerCase().trim();
     const filtertask = mydata.filter(storedata => {
         const titleText = (storedata.title || "").toLowerCase();
@@ -157,12 +159,13 @@ function searchtask(task) {
             if (confirm("Are you sure you want to delete?")) {
                 tasks = mydata.filter(task => task.id !== String(dataId));
                 localStorage.setItem("tasks", JSON.stringify(tasks));
-                
+
                 itemdisplay.remove();
-                
+
                 totalcount();
                 pendingcount();
                 completedcount();
+             
             }
         });
     });
@@ -208,9 +211,9 @@ function dispalaydata(datafetch) {
         <button class="deletebtn">Delete</button>
     `;
         taskContainer.appendChild(div);
-         //edit to click
-    const editbtn = div.querySelector(".editbtn");
-         editbtn.addEventListener("click", (e) => {
+        //edit to click
+        const editbtn = div.querySelector(".editbtn");
+        editbtn.addEventListener("click", (e) => {
 
             localStorage.setItem("editTask", item.id);
             window.location.href = "../html/addtask.html";
@@ -235,16 +238,17 @@ function dispalaydata(datafetch) {
             if (confirm("Are you sure you want to delete?")) {
                 tasks = getstoreddata().filter(task => task.id !== String(dataId));
                 localStorage.setItem("tasks", JSON.stringify(tasks));
-                
+
                 div.remove();
-                
+
                 totalcount();
                 pendingcount();
                 completedcount();
+                empty();
             }
         });
     });
-    
+
 }
 function filter(status) {
     const filtereddata = getstoreddata();
@@ -261,3 +265,120 @@ const seleteddata = document.getElementById("filter");
 seleteddata.addEventListener("change", (e) => {
     filter(e.target.value);
 })
+
+
+
+
+
+
+
+
+
+//sorting task by priority and due date
+const listcontainer = document.getElementById('task-container');
+const sortselect = document.getElementById('sort-by');
+const sortorederselect = document.getElementById('sort-order');
+const priorityorder = { "high": 1, "medium": 2, "low": 3 }
+
+function sortinglist(sortdata) {
+    listcontainer.innerHTML = "";
+
+    sortdata.forEach(item => {
+        const div = document.createElement('div');
+        div.classList.add("task-item");
+        div.innerHTML = ` <h3 id="task">Title<br>${item.title}</h3>
+        <p>Description<br>${item.description}</p>
+        <p>Priority<br>${item.priority}</p>
+        <p>Due Date<br>${item.dueDate}</p>
+        <p>Created Date<br>${item.createdDate}</p>
+        <p>Status<br>${item.status}</p>
+        <button class="editbtn">Edit</button>
+        <button class="com">${item.status === "completed" ? "completed" : "complete"}</button>
+        <button class="deletebtn">Delete</button>
+    `;
+        listcontainer.appendChild(div);
+         const editbtn = div.querySelector(".editbtn");
+        editbtn.addEventListener("click", (e) => {
+
+            localStorage.setItem("editTask", item.id);
+            window.location.href = "../html/addtask.html";
+        });
+        const completebtn = div.querySelector(".com");
+        div.id = item.id;
+        completebtn.addEventListener('click', () => {
+            const comtask = tasks.find((task) => task.id === String(div.id));
+            if (comtask && comtask.status === "pending") {
+                comtask.status = "completed";
+                localStorage.setItem("tasks", JSON.stringify(tasks));
+                completebtn.textContent = "Completed";
+                div.querySelector("p:nth-of-type(5)").innerHTML = `Status<br>${comtask.status}`;
+            }
+            completedcount();
+            pendingcount();
+        });
+        const deletebtn = div.querySelector(".deletebtn");
+        deletebtn.addEventListener("click", (e) => {
+            const dataId = item.id;
+
+            if (confirm("Are you sure you want to delete?")) {
+                tasks = getstoreddata().filter(task => task.id !== String(dataId));
+                localStorage.setItem("tasks", JSON.stringify(tasks));
+
+                div.remove();
+
+                totalcount();
+                pendingcount();
+                completedcount();
+                empty();
+            }
+        });
+
+    });
+}
+
+
+function sortstoragedata() {
+    const items = JSON.parse(localStorage.getItem('tasks')) || [];
+    const sortby = sortselect.value;
+    const sortorder = sortorederselect.value;
+    items.sort((a, b) => {
+        let comparsion = 0;
+        if (sortby === "dueDate") {
+            const dateA = a.dueDate ? new Date(a.dueDate).getTime() : Infinity;
+            const dateB = b.dueDate ? new Date(b.dueDate).getTime() : Infinity;
+            comparsion = dateA - dateB;
+        }
+        else if(sortby==="priority"){
+            const weighta=priorityorder[a.priority?.toLowerCase()]||99;
+            const weightb=priorityorder[b.priority?.toLowerCase()]||99;
+            comparsion=weighta-weightb;
+        }
+return sortorder==="asc"?comparsion:-comparsion;
+
+    });
+    sortinglist(items);
+
+
+}
+sortselect.addEventListener("change",sortstoragedata);
+sortorederselect.addEventListener("change",sortstoragedata)
+sortstoragedata();
+
+
+//when container is empty 
+function empty(){
+    const emptystate=document.getElementById("empty");
+    if(!emptystate) return;
+    const storage=localStorage.getItem("tasks");
+    if(!storage||storage==="[]"||storage===""){
+        emptystate.textContent="No tasks available. Click Add Task to create your first task";
+        emptystate.style.display="block";
+    }
+    else{
+        emptystate.textContent="";
+        emptystate.style.display="none"
+
+    }
+   
+}
+empty();

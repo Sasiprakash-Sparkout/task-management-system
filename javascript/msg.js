@@ -9,7 +9,6 @@ const editTaskId = localStorage.getItem("editTask");
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 const editTask = tasks.find((task) => task.id === editTaskId);
 if (editTask) {
-
     title.value = editTask.title;
     des.value = editTask.description;
     priority.value = editTask.priority;
@@ -23,7 +22,6 @@ if (!validateInputs()) {
         return;
     }
     if (editTask) {
-
         editTask.title = title.value.trim();
         editTask.description = des.value.trim();
         editTask.priority = priority.value.trim();
@@ -34,7 +32,6 @@ if (!validateInputs()) {
         //remove edit btm
         localStorage.removeItem("editTask");
         alert("Task updated successfully!");
-
     }
     else {
         const createdDate = new Date().toLocaleDateString();
@@ -46,10 +43,8 @@ if (!validateInputs()) {
             dueDate: duedate.value,
             status: droup.value.trim(),
             createdDate: createdDate
-
         };
         tasks.push(newtask);
-
         localStorage.setItem("tasks", JSON.stringify(tasks));
         alert("Task added successfully!");
     }
@@ -71,38 +66,47 @@ function setsucess(element) {
 }
 function validateInputs() {
     const titvlaue = title.value.trim();
-
     const priorityval = priority.value.trim();
     const dueval = duedate.value.trim();
     const droupval = droup.value.trim();
+    const today = new Date().toISOString().split("T")[0];
     let success = true;
     if (titvlaue === "") {
         success = false;
-        seterror(title, "Task name is required");
+        seterror(title, "Task name is mandatory");
     } 
     else {
         setsucess(title);
     }
-   
     if (priorityval === "") {
         success = false;
-        seterror(priority, "Select your priority");
+        seterror(priority, "priority must be selected");
     } 
     else {
         setsucess(priority);
     }
     if (dueval === "") {
         success = false;
-        seterror(duedate, "Select the due date");
+        seterror(duedate, "Due Date is mandatory");
     } 
+    else if(dueval<today){
+        success=false;
+        seterror(duedate,"Due Date should not be earlier than the current date")
+    }
     else {
         setsucess(duedate);
     }
     if (droupval === "") {
         success = false;
-        seterror(droup, "Select task status");
+        seterror(droup, "status must be selected");
     } 
     else {
         setsucess(droup);
     }return success;
 }
+console.log(form);
+console.log(title);
+console.log(des);
+console.log(priority);
+console.log(duedate);
+console.log(droup);

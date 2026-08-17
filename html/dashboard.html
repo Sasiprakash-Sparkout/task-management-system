@@ -15,6 +15,7 @@
         <div>
             <h2>Dashboard Task Management</h2>
 
+        <a href="./addtask.html" id="addtask">Add Task</a>
 
         </div>
     </header>
@@ -35,34 +36,33 @@
         </div>
     </div>
     <div class="search">
-        <input type="search" id="search" placeholder="To search tasks">
-
+        <input type="search" id="search" placeholder="To search tasks by title or description">
+<label for="filter">Filter Task:</label>
         <select id="filter">
             <option value="all">All</option>
             <option value="completed">Completed</option>
             <option value="pending">Pending</option>
         </select>
-        <select id="selectpriority">
-    <option value="">filter by priority</option>
-    <option value="high">high</option>
-    <option value="medium">medium</option>
-    <option value="low">low</option>
-   
+        <label for="sort-by">Sort By:</label>
+<select id="sort-by">
+    <option value="dueDate">Due Date</option>
+    <option value="priority">Priority</option>
 </select>
-<select id="selectdate">
-    <option value="">filter by date</option>
-    <option value="created date">created date</option>
-    <option value="due date">pending date</option>
-  
-   
+
+<label for="sort-order">Order:</label>
+<select id="sort-order">
+    <option value="asc">Ascending</option>
+    <option value="desc">Descending</option>
 </select>
-        <a href="./addtask.html" id="addtask">Add Task</a>
+
+    
     </div>
     <div class="tasklist">
         <h2>Task</h2>
+        <p id="empty"> No tasks available. <b>Click Add Task</b> to create your first task.</p>
 
         <div id="task-container">
-
+            
         </div>
     </div>
 </body>
