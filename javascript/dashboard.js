@@ -18,13 +18,16 @@ tasks.forEach((task) => {
     taskContainer.appendChild(taskElement);
 
 
+
     //edit to click
     const editbtn = taskElement.querySelector(".editbtn");
     editbtn.addEventListener("click", (e) => {
         //save a edit task in storage
         localStorage.setItem("editTask", task.id);
+
         window.location.href = "../html/addtask.html";
-      
+
+
     });
     //to delete the task
     const deletebtn = taskElement.querySelector(".deletebtn");
@@ -39,8 +42,9 @@ tasks.forEach((task) => {
             pendingcount();
             completedcount();
             empty();
+            showfeedback("Task deleted successfully", "success");
         }
-        
+
     });
     //complete the task button
 
@@ -63,12 +67,15 @@ tasks.forEach((task) => {
         }
         completedcount();
         pendingcount();
+        showfeedback("task completed successfully", "success");
     });
 });
+
 //to count total task
 function totalcount() {
     const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-    const counttask = document.getElementById("total-task");
+    const counttask = document.getElementById("total-task")
+
     counttask.textContent = tasks.length;
 }
 totalcount();
@@ -138,6 +145,7 @@ function searchtask(task) {
 
             localStorage.setItem("editTask", data.id);
             window.location.href = "../html/addtask.html";
+           
         });
         const completebtn = itemdisplay.querySelector(".com");
         itemdisplay.id = data.id;
@@ -151,6 +159,7 @@ function searchtask(task) {
             }
             completedcount();
             pendingcount();
+            showfeedback("task completed successfully", "success");
         });
         const deletebtn = itemdisplay.querySelector(".deletebtn");
         deletebtn.addEventListener("click", (e) => {
@@ -165,7 +174,8 @@ function searchtask(task) {
                 totalcount();
                 pendingcount();
                 completedcount();
-             
+                empty();
+                showfeedback("Task deleted successfully", "success");
             }
         });
     });
@@ -217,6 +227,7 @@ function dispalaydata(datafetch) {
 
             localStorage.setItem("editTask", item.id);
             window.location.href = "../html/addtask.html";
+            
         });
         const completebtn = div.querySelector(".com");
         div.id = item.id;
@@ -230,6 +241,7 @@ function dispalaydata(datafetch) {
             }
             completedcount();
             pendingcount();
+            showfeedback("task completed successfully", "success");
         });
         const deletebtn = div.querySelector(".deletebtn");
         deletebtn.addEventListener("click", (e) => {
@@ -245,6 +257,7 @@ function dispalaydata(datafetch) {
                 pendingcount();
                 completedcount();
                 empty();
+                showfeedback("Task deleted successfully", "success");
             }
         });
     });
@@ -297,11 +310,12 @@ function sortinglist(sortdata) {
         <button class="deletebtn">Delete</button>
     `;
         listcontainer.appendChild(div);
-         const editbtn = div.querySelector(".editbtn");
+        const editbtn = div.querySelector(".editbtn");
         editbtn.addEventListener("click", (e) => {
 
             localStorage.setItem("editTask", item.id);
             window.location.href = "../html/addtask.html";
+            
         });
         const completebtn = div.querySelector(".com");
         div.id = item.id;
@@ -315,6 +329,7 @@ function sortinglist(sortdata) {
             }
             completedcount();
             pendingcount();
+            showfeedback("task completed successfully", "success");
         });
         const deletebtn = div.querySelector(".deletebtn");
         deletebtn.addEventListener("click", (e) => {
@@ -330,6 +345,7 @@ function sortinglist(sortdata) {
                 pendingcount();
                 completedcount();
                 empty();
+                showfeedback("Task deleted successfully", "success");
             }
         });
 
@@ -348,37 +364,64 @@ function sortstoragedata() {
             const dateB = b.dueDate ? new Date(b.dueDate).getTime() : Infinity;
             comparsion = dateA - dateB;
         }
-        else if(sortby==="priority"){
-            const weighta=priorityorder[a.priority?.toLowerCase()]||99;
-            const weightb=priorityorder[b.priority?.toLowerCase()]||99;
-            comparsion=weighta-weightb;
+        else if (sortby === "priority") {
+            const weighta = priorityorder[a.priority?.toLowerCase()] || 99;
+            const weightb = priorityorder[b.priority?.toLowerCase()] || 99;
+            comparsion = weighta - weightb;
         }
-return sortorder==="asc"?comparsion:-comparsion;
+        return sortorder === "asc" ? comparsion : -comparsion;
 
     });
     sortinglist(items);
 
 
 }
-sortselect.addEventListener("change",sortstoragedata);
-sortorederselect.addEventListener("change",sortstoragedata)
+sortselect.addEventListener("change", sortstoragedata);
+sortorederselect.addEventListener("change", sortstoragedata)
 sortstoragedata();
 
 
 //when container is empty 
-function empty(){
-    const emptystate=document.getElementById("empty");
-    if(!emptystate) return;
-    const storage=localStorage.getItem("tasks");
-    if(!storage||storage==="[]"||storage===""){
-        emptystate.textContent="No tasks available. Click Add Task to create your first task";
-        emptystate.style.display="block";
+function empty() {
+    const emptystate = document.getElementById("empty");
+    if (!emptystate) return;
+    const storage = localStorage.getItem("tasks");
+    if (!storage || storage === "[]" || storage === "") {
+        emptystate.textContent = "No tasks available. Click Add Task to create your first task";
+        emptystate.style.display = "block";
     }
-    else{
-        emptystate.textContent="";
-        emptystate.style.display="none"
+    else {
+        emptystate.textContent = "";
+        emptystate.style.display = "none"
 
     }
-   
+
 }
 empty();
+
+
+//function for user feed back
+//reuable for all add edit complete delete buttons
+let timer = null;
+function showfeedback(message, type) {
+    const popupbox = document.getElementById('notification-box');
+   
+    popupbox.innerText = message;
+    popupbox.className = '';
+    popupbox.classList.add(type)
+
+    popupbox.style.display = "block";
+    timer = setTimeout(function () {
+        popupbox.style.display = "none";
+    }, 2000)
+}
+const addtask=localStorage.getItem("addtask");
+if(addtask==="true"){
+    showfeedback("task added successfully","success");
+    localStorage.removeItem("addtask")
+}
+const updatetask=localStorage.getItem("updatetask");
+if(updatetask==="true"){
+    showfeedback("task edited successfully","success");
+    localStorage.removeItem("updatetask")
+}

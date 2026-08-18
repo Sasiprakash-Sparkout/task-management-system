@@ -1,6 +1,6 @@
 const form = document.getElementById("taskform");
 const title = document.getElementById("title");
-const des=document.getElementById("description")
+const des = document.getElementById("description")
 const priority = document.getElementById("priority-input");
 const duedate = document.getElementById("duedate");
 const droup = document.getElementById("droup");
@@ -17,8 +17,11 @@ if (editTask) {
 
 }
 form.addEventListener("submit", (e) => {
-e.preventDefault();
-if (!validateInputs()) {
+    e.preventDefault();
+    if (!validateInputs()) {
+     
+         
+
         return;
     }
     if (editTask) {
@@ -27,11 +30,16 @@ if (!validateInputs()) {
         editTask.priority = priority.value.trim();
         editTask.dueDate = duedate.value;
         editTask.status = droup.value.trim();
+     
         //updatecode
         localStorage.setItem("tasks", JSON.stringify(tasks));
+        
         //remove edit btm
         localStorage.removeItem("editTask");
-        alert("Task updated successfully!");
+        //popup message for edit
+        localStorage.setItem("updatetask","true")
+        window.location.href = "../html/dashboard.html";
+
     }
     else {
         const createdDate = new Date().toLocaleDateString();
@@ -45,10 +53,13 @@ if (!validateInputs()) {
             createdDate: createdDate
         };
         tasks.push(newtask);
+        
         localStorage.setItem("tasks", JSON.stringify(tasks));
-        alert("Task added successfully!");
+       localStorage.setItem("addtask","true")
+
+        window.location.href = "../html/dashboard.html";
+    
     }
-    window.location.href = "../html/dashboard.html";
 });
 function seterror(element, message) {
     const inputGroup = element.parentElement;
@@ -71,27 +82,32 @@ function validateInputs() {
     const droupval = droup.value.trim();
     const today = new Date().toISOString().split("T")[0];
     let success = true;
+    if(titvlaue===""||priorityval===""||dueval===""||droupval===""){
+        showfeedback("required fields are missing","confirm-error")
+    }
     if (titvlaue === "") {
         success = false;
         seterror(title, "Task name is mandatory");
-    } 
+    }
     else {
         setsucess(title);
     }
     if (priorityval === "") {
         success = false;
         seterror(priority, "priority must be selected");
-    } 
+    }
     else {
         setsucess(priority);
     }
     if (dueval === "") {
         success = false;
         seterror(duedate, "Due Date is mandatory");
-    } 
-    else if(dueval<today){
-        success=false;
-        seterror(duedate,"Due Date should not be earlier than the current date")
+      
+    }
+    else if (dueval < today) {
+        success = false;
+         seterror(duedate, "Due Date should not be earlier than the current date")
+      showfeedback("invalid due date","confirm-error")
     }
     else {
         setsucess(duedate);
@@ -99,14 +115,25 @@ function validateInputs() {
     if (droupval === "") {
         success = false;
         seterror(droup, "status must be selected");
-    } 
+    }
     else {
-        setsucess(droup);
-    }return success;
+        
+    } return success;
 }
-console.log(form);
-console.log(title);
-console.log(des);
-console.log(priority);
-console.log(duedate);
-console.log(droup);
+
+let timer = null;
+function showfeedback(messages, type) {
+    const popupbox = document.getElementById('notification');
+   
+    popupbox.innerText = messages;
+    popupbox.className = '';
+    popupbox.classList.add(type)
+
+    popupbox.style.display = "block";
+    timer = setTimeout(function () {
+        popupbox.style.display = "none";
+    }, 2000)
+}
+ 
+
+
