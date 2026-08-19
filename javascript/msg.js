@@ -19,10 +19,7 @@ if (editTask) {
 form.addEventListener("submit", (e) => {
     e.preventDefault();
     if (!validateInputs()) {
-     
-         
-
-        return;
+     return;
     }
     if (editTask) {
         editTask.title = title.value.trim();

@@ -5,7 +5,7 @@ tasks.forEach((task) => {
     const taskElement = document.createElement("div");
     taskElement.classList.add("task-item");
     taskElement.innerHTML = `
-        <h3 class="task-title">Title<br>${task.title}</h3>
+        <p class="task-title">Task Name<br>${task.title}</p>
         <p>Description<br>${task.description}</p>
         <p>Priority<br>${task.priority}</p>
         <p>Due Date<br>${task.dueDate}</p>
@@ -129,7 +129,7 @@ function searchtask(task) {
         const itemdisplay = document.createElement("div");
         itemdisplay.classList.add("task-item");
         itemdisplay.innerHTML = `
-        <h3 id="task">Title<br>${data.title}</h3>
+        <p id="task">Task Name<br>${data.title}</p>
         <p>Description<br>${data.description}</p>
         <p>Priority<br>${data.priority}</p>
         <p>Due Date<br>${data.dueDate}</p>
@@ -210,7 +210,7 @@ function dispalaydata(datafetch) {
     datafetch.forEach(item => {
         const div = document.createElement("div");
         div.classList.add("task-item");
-        div.innerHTML = ` <h3 id="task">Title<br>${item.title}</h3>
+        div.innerHTML = ` <p id="task">Task Name<br>${item.title}</p>
         <p>Description<br>${item.description}</p>
         <p>Priority<br>${item.priority}</p>
         <p>Due Date<br>${item.dueDate}</p>
@@ -299,7 +299,7 @@ function sortinglist(sortdata) {
     sortdata.forEach(item => {
         const div = document.createElement('div');
         div.classList.add("task-item");
-        div.innerHTML = ` <h3 id="task">Title<br>${item.title}</h3>
+        div.innerHTML = ` <p id="task">Task Name<br>${item.title}</p>
         <p>Description<br>${item.description}</p>
         <p>Priority<br>${item.priority}</p>
         <p>Due Date<br>${item.dueDate}</p>
